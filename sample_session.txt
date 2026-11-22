@@ -1,0 +1,56 @@
+# lication       : Started HelloAuthApplication in 1.946 seconds (process running for 2.337)
+
+$ curl -s -i http://localhost:18080/api/hello
+HTTP/1.1 401 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+WWW-Authenticate: Bearer
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Length: 0
+Date: Sun, 22 Nov 2026 13:18:09 GMT
+
+$ curl -s -i -X POST http://localhost:18080/api/auth/login -H "Content-Type: application/json" -d "{\"username\":\"test\",\"password\":\"wrong\"}"
+HTTP/1.1 401 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Transfer-Encoding: chunked
+Date: Sun, 22 Nov 2026 13:18:09 GMT
+
+{"error":"invalid_credentials","message":"Invalid username or password"}
+
+$ curl -s -X POST http://localhost:18080/api/auth/login -H "Content-Type: application/json" -d "{\"username\":\"test\",\"password\":\"123456\"}"
+{"access_token":"eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJoZWxsby1hdXRoIiwic3ViIjoidGVzdCIsImV4cCI6MTc5NTM1NzA4OSwiaWF0IjoxNzk1MzUzNDg5LCJzY29wZSI6IlJPTEVfVVNFUiJ9.bDUnMdP8YLaM4xOBN6gGMQlmfQq1cMZ648rUvLEdSf0","token_type":"Bearer","expires_in":3600}
+
+# TOKEN=<access_token from the response above>
+
+$ curl -s -i http://localhost:18080/api/hello -H "Authorization: Bearer $TOKEN"
+HTTP/1.1 200 
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Pragma: no-cache
+Expires: 0
+X-Frame-Options: DENY
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 11
+Date: Sun, 22 Nov 2026 13:18:09 GMT
+
+Hello World
+

@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+app:
+  # Demo account from the task description. The password is BCrypt-hashed at startup
+  # and never stored in plain text in memory.
+  demo-user:
+    username: test
+    password: "123456"
+  jwt:
+    # HMAC-SHA256 signing key (at least 32 bytes). Override in any real deployment:
+    #   APP_JWT_SECRET=<random 32+ byte string> java -jar target/hello-auth-1.0.0.jar
+    secret: ${APP_JWT_SECRET:change-me-dev-only-secret-key-at-least-32-bytes}
+    ttl: 1h
+    issuer: hello-auth
